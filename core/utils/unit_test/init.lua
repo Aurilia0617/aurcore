@@ -1,4 +1,6 @@
 local UnitTestAdapter = require("aurcore.adapters.unit_test.adapter")
+local RequireInterface = require("aurcore.core.interfaces.third_party.unit_test.unit_test")
+RequireInterface:check(UnitTestAdapter)
 local Types = require("aurcore.types.init")
 
 local UnitTest = Types.class:new("UnitTest")
