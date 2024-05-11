@@ -1,0 +1,1 @@
+常用工具或者三方库 `vendor` 经过适配器 `adapters` 适配 `core/interfaces/third_party` 后的库

@@ -1,0 +1,1 @@
+将第三方库 `vendor` 的接口适配到项目所期望的接口 `core/interfaces/third_party` 上
