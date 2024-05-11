@@ -1,10 +1,11 @@
 local Test = require("aurcore.test.init")
 local Types = require("aurcore.types.init")
 local Resource = require("aurcore.core.resource.init")
+local I18n = require("aurcore.core.utils.i18n.init")
 
 local function validate_method(method, name)
-    --assert(method ~= nil, I18n:get_error_message("missingMethod", name))
-    --assert(type(method) == "function", I18n:get_error_message("notAFunction", name))
+    assert(method ~= nil, I18n:get_error_message("frameworkMissingMethod", name))
+    assert(type(method) == "function", I18n:get_error_message("notAFunction", name))
 end
 
 local function createFrameworkContainer(frameworkList)
@@ -43,10 +44,10 @@ local function init(...)
     local frameworkList = { {test = function (self)
         return Test(self)
     end},... }
-    --assert(#frameworkList ~= 0, I18n:get_error_message("noFrameworks"))
+    assert(#frameworkList ~= 0, I18n:get_error_message("noFrameworks"))
 
     for i, framework in ipairs(frameworkList) do
-        --assert(type(framework) == "table", I18n:get_error_message("invalidFrameworkTypeForNthFramework", i))
+        assert(type(framework) == "table", I18n:get_error_message("invalidFrameworkTypeForNthFramework", i))
     end
 
     local frameworkContainer = createFrameworkContainer(frameworkList)
@@ -56,7 +57,7 @@ local function init(...)
         validate_method(frameworkContainer[methodName], methodName)
     end
 
-    return Resource:newAurCore(frameworkContainer)
+    return Resource:new(frameworkContainer):get_ac()
 end
 
 

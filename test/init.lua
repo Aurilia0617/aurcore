@@ -1,4 +1,5 @@
-local LuaUnit = require("aurcore.vendor.luaunit.luaunit")
+local Test = require("aurcore.core.utils.unit_test.init")
+TestI18n = require("aurcore.test.i18n")
 return function (o)
-    LuaUnit.LuaUnit.run()
+    Test:run()
 end
