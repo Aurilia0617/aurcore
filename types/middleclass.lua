@@ -1,4 +1,4 @@
-local MixinTable = require("aurcore.utils.class.mixin_table")
+local MixinTable = require("aurcore.types.mixin_table")
 -- 修改：添加了混入白名单_CONST
 local middleclass = {
     _VERSION     = 'middleclass v4.1.1',
