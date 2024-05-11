@@ -1,0 +1,6 @@
+[submodule "vendor/middleclass"]
+	path = vendor/middleclass
+	url = https://github.com/Aurilia0617/middleclass.git
+[submodule "vendor/luaunit"]
+	path = vendor/luaunit
+	url = https://github.com/Aurilia0617/luaunit.git
