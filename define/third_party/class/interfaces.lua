@@ -1,3 +1,5 @@
+local check_method = require("aurcore.define.third_party.check")
+
 local classInterface = {}
 local classLibInterface = {}
 
@@ -8,7 +10,7 @@ function classInterface:include() end
 
 function classInterface:subclass() end
 
-return {
-    classInterface = classInterface,
-    classLibInterface = classLibInterface
-}
+return function (classLib)
+    check_method(classLib,classLibInterface)
+    check_method(classLib:new_class(),classInterface)
+end
