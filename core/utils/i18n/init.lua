@@ -1,8 +1,11 @@
 local Types = require("aurcore.types.init")
+local I18nClass = Types:new_class("I18n")
+local LanguageManager = require("aurcore.core.utils.i18n.language")
+I18nClass:include(require("aurcore.core.utils.i18n.error"), LanguageManager)
 
-local I18nClass = Types.class:new("I18n")
-I18nClass:include(require("aurcore.core.utils.i18n.date_time_formats"),
-    require("aurcore.core.utils.i18n.error_msg"), require("aurcore.core.utils.i18n.ui_texts"),
-    require("aurcore.core.utils.i18n.language"))
+function I18nClass:initialize(config)
+    LanguageManager:set_language(config.currentLanguage)
+end
 
-return I18nClass:new()
+--- @class I18nClass:ErrorMessages, LanguageManager
+return I18nClass

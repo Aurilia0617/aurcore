@@ -1,17 +1,22 @@
 local Types = require("aurcore.types.init")
-local ResourceClass = Types.class:new("ResourceClass")
-local AurCoreClass = Types.class:new("AurCoreClass")
+local I18n = require("aurcore.core.utils.i18n.init")
+local Cofig = require("aurcore.core.config.init")
+require("aurcore.apis.init") -- 引入套壳emmylua以压缩成单文件时导入
 
-function AurCoreClass:initialize(frameworkContainer)
-    function self:test()
-        return frameworkContainer.test()
+local resource = Types:new_obj("resource")
+---@class I18nClass
+local _i18n = I18n:new(Cofig)
+
+function resource:get_i18n()
+    return _i18n
+end
+
+function resource:init(frameworkContainer)
+    function resource:get_test_fun()
+        return function(o)
+            frameworkContainer.test(o)
+        end
     end
 end
 
-function ResourceClass:initialize(frameworkContainer)
-    self.get_ac = function (_)
-        return AurCoreClass:new(frameworkContainer)
-    end
-end
-
-return ResourceClass
+return resource

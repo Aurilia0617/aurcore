@@ -1,23 +1,19 @@
 local MixinTable = require("aurcore.types.mixin_table")
 local MiddleClass = require("aurcore.types.class")
-local obj = {
-    new = function(self, name)
+-- 让调用的代码更易懂
+local t = {
+    new_obj = function(_, name)
         assert(type(name) == "string", "The object name should be of string type")
         return MixinTable(name)
     end,
-    convert = function(self, name, old)
+    convert2obj = function(_, name, old)
         assert(type(name) == "string", "The object name should be of string type")
         assert(type(old) == "table", "The object should be of table type")
         return MixinTable(name, old)
-    end
-}
-local class = {
-    new = function(self, name)
+    end,
+    new_class = function(_, name)
         assert(type(name) == "string", "The object name should be of string type")
         return MiddleClass(name)
     end
 }
-return {
-    obj = obj,
-    class = class
-}
+return setmetatable(MixinTable("TypesInit"), { __index = t })
