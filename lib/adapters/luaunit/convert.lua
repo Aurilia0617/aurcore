@@ -1,18 +1,18 @@
-local LuaUint = require("aurcore.lib.vendor.luauint.luaunit")
+local LuaUint = require("aurcore.lib.vendor.luaunit.luaunit")
 local Types = require("aurcore.types.init")
 
-local luauint = Types:convert2obj("luauint", LuaUint)
+local luauint = Types:new_obj("luauint")
 
 function luauint:run()
-    return luauint.LuaUnit.run()
+    return LuaUint.LuaUnit.run()
 end
 
 function luauint:equals(actual, expected, ...)
-    return luauint.assertEquals(actual, expected, ...)
+    return LuaUint.assertEquals(actual, expected, ...)
 end
 
 function luauint:error_contains(msg, fun, ...)
-    return luauint.assertErrorMsgContains(msg, fun, ...)
+    return LuaUint.assertErrorMsgContains(msg, fun, ...)
 end
 
 return luauint

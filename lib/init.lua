@@ -7,4 +7,10 @@ function library:get_luaunit()
     return luaunit
 end
 
+-- function library:get_logging()
+--     local logging = require("aurcore.lib.adapters.logging.convert")
+--     require("aurcore.define.init"):check_logging(logging)
+--     return logging
+-- end
+
 return library

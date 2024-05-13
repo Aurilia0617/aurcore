@@ -7,4 +7,8 @@ function define:check_unit_test(UnitTestLib)
     return require("aurcore.define.third_party.unit_test.interfaces")(UnitTestLib)
 end
 
+function define:check_logging(LoggerLib)
+    return require("aurcore.define.third_party.logging.interfaces")(LoggerLib)
+end
+
 return define

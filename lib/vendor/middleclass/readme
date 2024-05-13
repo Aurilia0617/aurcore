@@ -1,0 +1,3 @@
+原始库：https://github.com/kikito/middleclass
+
+添加了混入白名单_CONST字段；

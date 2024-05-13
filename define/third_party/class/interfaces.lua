@@ -12,5 +12,5 @@ function classInterface:subclass() end
 
 return function (classLib)
     check_method(classLib,classLibInterface)
-    check_method(classLib:new_class(),classInterface)
+    check_method(classLib:new_class("defineTest"),classInterface)
 end
