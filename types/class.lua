@@ -1,5 +1,5 @@
 local MixinTable = require("aurcore.types.mixin_table")
-local Class = require("aurcore.lib.class")
+local Class = require("aurcore.hub"):get_class()
 
 return function(name)
     -- 将类实例转为混入表类型以同一对象格式

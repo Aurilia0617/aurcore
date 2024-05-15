@@ -1,5 +1,5 @@
-local LuaUint = require("aurcore.lib.vendor.luaunit.luaunit")
-local Types = require("aurcore.types.init")
+local LuaUint = require("aurcore.lib.luaunit.luaunit")
+local Types = require("aurcore.hub"):get_types()
 
 local luauint = Types:new_obj("luauint")
 

@@ -1,11 +1,11 @@
-local Types = require("aurcore.types.init")
+local types = require("aurcore.hub"):get_types()
 local currentLanguage
 local supportedLanguages = {
     en = true,
     zh = true
 }
 
-local LanguageManager = Types:new_obj("LanguageManager")
+local LanguageManager = types:new_obj("LanguageManager")
 
 function LanguageManager:set_language(lang)
     assert(supportedLanguages[lang],
@@ -26,5 +26,4 @@ function LanguageManager:get_supported_languages()
     return languages
 end
 
---- @class LanguageManager
 return LanguageManager

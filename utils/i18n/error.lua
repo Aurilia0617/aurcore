@@ -1,5 +1,5 @@
-local Language = require("aurcore.core.utils.i18n.language")
-local Types = require("aurcore.types.init")
+local Language = require("aurcore.utils.i18n.language")
+local types = require("aurcore.hub"):get_types()
 
 local errorMessages = {
     en = {
@@ -18,8 +18,7 @@ local errorMessages = {
     }
 }
 
---- @class ErrorMessages
-local ErrorMessages = Types:new_obj("ErrorMessages")
+local ErrorMessages = types:new_obj("ErrorMessages")
 
 function ErrorMessages:get_error_message(key, ...)
     local messages = errorMessages[Language:get_language()] or errorMessages.en -- 默认为英语
