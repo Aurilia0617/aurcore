@@ -7,6 +7,9 @@ local errorMessages = {
         noFrameworks = "AurCore: No frameworks provided, use 'coromega' if no custom framework is needed.",
         invalidFrameworkTypeForNthFramework = "The %dth framework has an invalid framework type.",
         missingMethod = "Lacks the method: %s",
+        incorrectKeyTypeForColorTable = "Incorrect key type, the color table key should be a string or numeric type",
+        incorrectKeyTypeStringRequired = "Incorrect key type:%s, a string type is required.",
+        keyDoesNotExist = "Key %s does not exist.",
         notAFunction = "%s is not a function.",
     },
     zh = {
@@ -14,6 +17,9 @@ local errorMessages = {
         noFrameworks = "AurCore:未传入任何框架，若无自定义框架，可使用coromega",
         invalidFrameworkTypeForNthFramework = " 第 %d 个框架的框架类型不正确",
         missingMethod = "缺少方法: %s",
+        keyDoesNotExist = "键 %s 不存在",
+        incorrectKeyTypeStringRequired = "错误的键类型，需要的是字符串类型",
+        incorrectKeyTypeForColorTable = "错误的键类型:%s，颜色表键应为字符串或数字类型",
         notAFunction = "%s 不是一个函数",
     }
 }

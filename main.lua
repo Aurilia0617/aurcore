@@ -2,6 +2,7 @@ local Hub = require("aurcore.hub")
 local types = Hub:get_types()
 local i18n = Hub:get_i18n()
 local test = Hub:get_test()
+-- local logger = Hub:get_logger()
 -- 用于压缩时提前注册模块名
 require("aurcore.define.class")
 require("aurcore.define.init")

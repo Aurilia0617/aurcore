@@ -1,14 +1,16 @@
 local Hub = require("aurcore.hub")
 local types = Hub:get_types()
+local acWrapperClass = types:new_class("acWrapper")
+acWrapperClass:include(require("aurcore.core.wrapper.mixin.color"))
 
-local acWrapper = types:new_class("acWrapper")
-
-function acWrapper:test()
-    acWrapper:get_static_val("resource"):test()
+function acWrapperClass:test()
+    acWrapperClass:_get_resource():test()
 end
 
-function acWrapper:initialize(resource)
-    acWrapper:set_static_val("resource", resource)
+function acWrapperClass:initialize(resource)
+    function acWrapperClass:_get_resource()
+        return resource
+    end
 end
 
-return acWrapper
+return acWrapperClass

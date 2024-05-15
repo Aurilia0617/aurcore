@@ -1,5 +1,6 @@
 local Hub = require("aurcore.hub")
 local wrapper = require("aurcore.core.wrapper.init")
+local color = Hub:get_color()
 
 local types = Hub:get_types()
 
@@ -13,6 +14,10 @@ end
 
 function resource:get_wrapper()
     return wrapper:new(self)
+end
+
+function resource:get_color()
+    return color
 end
 
 return resource

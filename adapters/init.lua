@@ -16,4 +16,8 @@ function adapters:get_test_lib()
     return require("aurcore.adapters.third_party.unit_test.convert")
 end
 
+function adapters:get_color()
+    return require("aurcore.adapters.internal.utils.color.convert")
+end
+
 return adapters

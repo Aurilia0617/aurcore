@@ -30,6 +30,10 @@ function hub:get_test_lib()
     return require("aurcore.define.init"):check_test_lib(require("aurcore.adapters.init"):get_test_lib())
 end
 
+function hub:get_color()
+    return require("aurcore.define.init"):check_color(require("aurcore.adapters.init"):get_color())
+end
+
 function hub:get_test()
     return require("aurcore.test.init")
 end

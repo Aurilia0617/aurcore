@@ -15,8 +15,8 @@ function define:check_i18n(I18nLib)
     return require("aurcore.define.internal.utils.i18n.interfaces")(I18nLib)
 end
 
--- function define:check_color(ColorLib)
---     return require("aurcore.define.internal.utils.color.interfaces")(ColorLib)
--- end
+function define:check_color(ColorLib)
+    return require("aurcore.define.internal.utils.color.interfaces")(ColorLib)
+end
 
 return define
