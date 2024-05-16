@@ -20,11 +20,11 @@ function color:valid_string_key(key)
 end
 
 function color:get_fg_color(key)
-    return ColorLib.fg.key or ColorLib.fg(key)
+    return ColorLib.fg[key] or ColorLib.fg(key)
 end
 
 function color:get_bg_color(key)
-    return ColorLib.bg.key or ColorLib.bg(key)
+    return ColorLib.bg[key] or ColorLib.bg(key)
 end
 
 function color:get_reset_color()

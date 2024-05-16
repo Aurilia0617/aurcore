@@ -4,7 +4,7 @@ local color = Hub:get_color()
 
 local types = Hub:get_types()
 
-local resource = types:new_class("resource")
+local resource = types:new_obj("resource")
 
 function resource:set_pre_framework(framework)
     function resource:test()

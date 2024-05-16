@@ -9,8 +9,10 @@ function colorMixin:get_color_chart()
 end
 
 function colorMixin:get_fg_color(key)
+    assert(key ~= nil, i18n:error("emptyParameter"))
     local color = self:_get_resource():get_color()
     if type(key) == "number" then
+        assert(key >= 0 and key <= 255, i18n:error("numberOutOfRange",0,255))
         key = tostring(key)
     end
     assert(type(key) == "string", i18n:error("incorrectKeyTypeForColorTable"))
@@ -19,8 +21,10 @@ function colorMixin:get_fg_color(key)
 end
 
 function colorMixin:get_bg_color(key)
+    assert(key ~= nil, i18n:error("emptyParameter"))
     local color = self:_get_resource():get_color()
     if type(key) == "number" then
+        assert(key >= 0 and key <= 255, i18n:error("numberOutOfRange",0,255))
         key = tostring(key)
     end
     assert(type(key) == "string", i18n:error("incorrectKeyTypeForColorTable"))
@@ -29,12 +33,14 @@ function colorMixin:get_bg_color(key)
 end
 
 function colorMixin:get_color(key)
+    assert(key ~= nil, i18n:error("emptyParameter"))
     assert(type(key) == "string", i18n:error("incorrectKeyTypeStringRequired",type(key)))
-    if key == "reset" then
-        return self:_get_resource():get_color():get_reset_color()
-    elseif key == "bold" then
-        return self:_get_resource():get_color():get_bold_color()
-    end
+    local cbs = {
+        reset = self:_get_resource():get_color().get_reset_color,
+        bold = self:_get_resource():get_color().get_bold_color
+    }
+    assert(cbs[key] ~= nil, i18n:error("keyDoesNotExist",key))
+    return cbs[key](self)
 end
 
 return colorMixin
