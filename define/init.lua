@@ -23,4 +23,8 @@ function define:check_pubsub(PubsubLib)
     return require("aurcore.define.third_party.pubsub.interfaces")(PubsubLib)
 end
 
+function define:check_logger(LoggerLib)
+    return require("aurcore.define.internal.modules.logger.interfaces")(LoggerLib)
+end
+
 return define

@@ -24,4 +24,8 @@ function adapters:get_pubsub()
     return require("aurcore.adapters.third_party.pubsub.convert")
 end
 
+function adapters:get_logger()
+    return require("aurcore.adapters.internal.modules.logger.convert")
+end
+
 return adapters
