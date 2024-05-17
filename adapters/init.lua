@@ -20,4 +20,8 @@ function adapters:get_color()
     return require("aurcore.adapters.internal.utils.color.convert")
 end
 
+function adapters:get_pubsub()
+    return require("aurcore.adapters.third_party.pubsub.convert")
+end
+
 return adapters

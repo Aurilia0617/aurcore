@@ -19,4 +19,8 @@ function define:check_color(ColorLib)
     return require("aurcore.define.internal.utils.color.interfaces")(ColorLib)
 end
 
+function define:check_pubsub(PubsubLib)
+    return require("aurcore.define.third_party.pubsub.interfaces")(PubsubLib)
+end
+
 return define

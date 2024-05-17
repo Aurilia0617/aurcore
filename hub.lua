@@ -38,4 +38,8 @@ function hub:get_test()
     return require("aurcore.test.init")
 end
 
+function hub:get_pubsub()
+    return require("aurcore.define.init"):check_pubsub(require("aurcore.adapters.init"):get_pubsub())
+end
+
 return hub
