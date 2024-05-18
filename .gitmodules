@@ -1,6 +1,0 @@
-[submodule "lib/vendor/middleclass"]
-	path = lib/vendor/middleclass
-	url = https://github.com/Aurilia0617/middleclass
-[submodule "lib/vendor/luauint"]
-	path = lib/vendor/luauint
-	url = https://github.com/Aurilia0617/luaunit

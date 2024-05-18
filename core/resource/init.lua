@@ -1,22 +1,29 @@
-local Types = require("aurcore.types.init")
-local I18n = require("aurcore.core.utils.i18n.init")
-local Cofig = require("aurcore.core.config.init")
-require("aurcore.apis.init") -- 引入套壳emmylua以压缩成单文件时导入
+local Hub = require("aurcore.hub")
+local wrapper = require("aurcore.core.wrapper.init")
 
-local resource = Types:new_obj("resource")
----@class I18nClass
-local _i18n = I18n:new(Cofig)
+local types = Hub:get_types()
 
-function resource:get_i18n()
-    return _i18n
+local resource = types:new_obj("resource")
+
+function resource:set_pre_framework(framework)
+    setmetatable(resource, {__index = framework})
+    function resource:get_framework()
+        return framework
+    end
+    return resource
 end
 
-function resource:init(frameworkContainer)
-    function resource:get_test_fun()
-        return function(o)
-            frameworkContainer.test(o)
+function resource:get_wrapper()
+    local new_wrapper = wrapper:new(self)
+    local old_t = getmetatable(new_wrapper)
+    return setmetatable(new_wrapper,{__index = function(o, name)
+        local value = old_t[name]
+        if value ~= nil then
+            return value
+        else
+            return self:get_framework()[name]
         end
-    end
+    end})
 end
 
 return resource
