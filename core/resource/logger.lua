@@ -6,11 +6,9 @@ function resource:set_logger_lib(loggerLib)
     end
     local plugin_name = resource:get_plugin_name()
     resource._logger = loggerLib:new(resource,plugin_name)
-    function resource:set_log_name(name)
-        return resource._logger:set_log_name(name)
-    end
-    function resource:get_log_name()
-        return resource._logger:get_log_name()
+    resource._logger:set_debug_stack_depth(3)
+    function resource:set_resource_logger()
+        return resource._logger
     end
     return resource
 end

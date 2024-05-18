@@ -59,7 +59,7 @@ local function init(...)
 
     local frameworkContainer = createFrameworkContainer(frameworkList)
     -- 确保所有关键方法都存在
-    local requiredMethods = { "print", "log", "now", "uuid", "shared_map", "get_plugin_name" }
+    local requiredMethods = { "print", "log", "now", "uuid", "shared_map", "get_plugin_name", "log_without_print" }
     for _, methodName in ipairs(requiredMethods) do
         validate_method(frameworkContainer[methodName], methodName)
     end
@@ -70,7 +70,7 @@ local function init(...)
 end
 
 return {
-    from = function (...)
+    from = function(...)
         return init(...):new_ac()
     end,
     custom = init
