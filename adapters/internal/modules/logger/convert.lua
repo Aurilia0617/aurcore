@@ -2,7 +2,6 @@ local style = require("aurcore.adapters.internal.modules.logger.style")
 local Hub = require("aurcore.hub")
 local i18n = Hub:get_i18n()
 local types = Hub:get_types()
-local json = require("json")
 
 local loggerLib = types:new_obj("loggerLib")
 
@@ -13,10 +12,10 @@ function loggerLib:new(resource, name)
     end
 
     function newLogger:set_log_name(newName)
+        assert(type(newName) == "string", i18n:error("incorrectKeyTypeStringRequired", type(newName)))
         function newLogger:get_log_name()
             return newName
         end
-
         return newLogger
     end
 
@@ -31,7 +30,7 @@ function loggerLib:new(resource, name)
     end
 
     function newLogger:fatal(msg, ...)
-        msg = string.format(msg, ...)
+        msg = string.format(msg or "", ...)
         resource:log_without_print(("FATAL %s"):format(msg))
         resource:print(("%s [%s] %s %s"):format(os.date("!%H:%M:%S", resource:now()), self:get_log_name(),
             style.headers.fatal, (style.body.fatal):format(msg)))
@@ -39,27 +38,27 @@ function loggerLib:new(resource, name)
     end
 
     function newLogger:error(msg, ...)
-        msg = string.format(msg, ...)
+        msg = string.format(msg or "", ...)
         resource:log_without_print(("ERROR %s"):format(msg))
         resource:print(("%s [%s] %s %s"):format(os.date("!%H:%M:%S", resource:now()), self:get_log_name(),
             style.headers.error, (style.body.error):format(msg)))
     end
 
     function newLogger:warn(msg, ...)
-        msg = string.format(msg, ...)
+        msg = string.format(msg or "", ...)
         resource:log_without_print(("WARN %s"):format(msg))
         resource:print(("%s [%s] %s %s"):format(os.date("!%H:%M:%S", resource:now()), self:get_log_name(),
             style.headers.warn, (style.body.warn):format(msg)))
     end
 
     function newLogger:info(msg, ...)
-        msg = string.format(msg, ...)
+        msg = string.format(msg or "", ...)
         resource:print(("%s [%s] %s %s"):format(os.date("!%H:%M:%S", resource:now()), self:get_log_name(),
             style.headers.info, (style.body.info):format(msg)))
     end
 
     function newLogger:succ(msg, ...)
-        msg = string.format(msg, ...)
+        msg = string.format(msg or "", ...)
         resource:print(("%s [%s] %s %s"):format(os.date("!%H:%M:%S", resource:now()), self:get_log_name(),
             style.headers.succ, (style.body.succ):format(msg)))
     end
