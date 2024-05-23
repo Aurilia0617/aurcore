@@ -9,8 +9,12 @@ AurCore (简称 AC 库) 是专为 NeOmega 平台设计的 Lua 前置库。它旨
 - **高度可配置**：灵活的配置选项以适应不同的开发需求。
 
 ## 框架
-![逻辑框架](docs/aurcore.png)
-![实际框架](docs/aurcore2.png)
+<div style="text-align:center;">
+    ![逻辑框架](docs/aurcore.png)
+</div>
+<div style="text-align:center;">
+    ![实际框架](docs/aurcore2.png)
+</div>
 
 ## 安装指南
 
