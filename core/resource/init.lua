@@ -1,29 +1,27 @@
-local Hub = require("aurcore.hub")
-local wrapper = require("aurcore.core.wrapper.init")
+local utils = require("aurcore.utils.table.init")
 
-local types = Hub:get_types()
-
-local resource = types:new_obj("resource")
-
-function resource:set_pre_framework(framework)
-    setmetatable(resource, {__index = framework})
-    function resource:get_framework()
-        return framework
-    end
-    return resource
-end
-
-function resource:get_wrapper()
-    local new_wrapper = wrapper:new(self)
-    local old_t = getmetatable(new_wrapper)
-    return setmetatable(new_wrapper,{__index = function(o, name)
-        local value = old_t[name]
-        if value ~= nil then
-            return value
-        else
-            return self:get_framework()[name]
+return {
+    inject = function (_, dep)
+        local new = require("aurcore.core.resource.new")
+        if dep.framework ~= nil then
+            -- 获得框架，执行初始化流程
+            new.init(dep.framework)
+            return new.resource
         end
-    end})
-end
-
-return resource
+        local resource = new.resource
+        for key, module in pairs(dep) do
+            if key ~= "framework" then
+                -- 直接注入
+                if key == "logger" then
+                    -- 日志模块
+                    resource = utils:add_to_module_container(resource, key, module)
+                end
+            end
+        end
+        return {
+            new_ac = function ()
+                return new:new_wrapper()
+            end
+        }
+    end
+}

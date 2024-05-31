@@ -1,12 +1,9 @@
 local Hub = require("aurcore.hub")
-local types = Hub:get_types()
 local i18n = Hub:get_i18n()
-local test = Hub:get_test()
-local pubsub = Hub:get_pubsub():new()
--- local logger = Hub:get_logger()
+local test = 1
 -- 用于压缩时提前注册模块名
-require("aurcore.define.class")
-require("aurcore.define.init")
+-- require("aurcore.define.class")
+-- require("aurcore.define.init")
 
 local function validate_method(method, name)
     assert(method ~= nil, i18n:error("missingMethod", name))
@@ -14,9 +11,10 @@ local function validate_method(method, name)
 end
 
 local function createFrameworkContainer(frameworkList)
-    local apiCache = types:new_obj("apiCache")
+    local apiCache = { _name_ = "apiCache"}
 
     local frameworkContainer = {
+        _name_ = "frameworkContainer",
         del_cache = function(_, key)
             apiCache[key] = nil
         end,
@@ -25,7 +23,6 @@ local function createFrameworkContainer(frameworkList)
             return frameworkList
         end
     }
-    frameworkContainer = types:convert2obj("frameworkContainer", frameworkContainer)
 
     setmetatable(frameworkContainer, {
         __index = function(_, key)
@@ -48,7 +45,7 @@ end
 local function init(...)
     local frameworkList = { {
         test = function(self)
-            return test(self)
+            -- return test(self)
         end
     }, ... }
     assert(#frameworkList ~= 0, i18n:error("noFrameworks"))
@@ -63,9 +60,11 @@ local function init(...)
     for _, methodName in ipairs(requiredMethods) do
         validate_method(frameworkContainer[methodName], methodName)
     end
-
+    -- 初始化资源管理器
+    local resource = Hub:init(frameworkContainer)
+    -- 注入模块
     return Hub:inject({
-        framework = frameworkContainer
+        logger = Hub:get_logger_module(resource, "Aur-Core")
     })
 end
 

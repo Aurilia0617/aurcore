@@ -1,3 +1,0 @@
-modules中是依赖Resource的工具，其与其他模块和外部交流均依赖Resource进行
-因此模块不放入Hub获取
-替代地，要求将一个获取resource初始化后并返回模块本体的函数inject进resource
