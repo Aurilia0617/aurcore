@@ -80,4 +80,47 @@ function hub:init(framework)
     return require("aurcore.core.resource.init"):inject({framework = framework})
 end
 
+local version_tag
+---@return versionChecker
+function hub:get_version_checker()
+    local bm = self:get_basic_module()
+    if not version_tag then
+        version_tag = "version"
+        bm:set_define(version_tag, require("aurcore.define.lib.version.interfaces").versionCheckerInterface)
+        bm:set_adapter(version_tag, require("aurcore.adapters.lib.version.convert"))
+        bm:set_define(version_tag.." test new", require("aurcore.define.lib.version.interfaces").versionRange)
+        bm:set_adapter(version_tag.." test new", require("aurcore.adapters.lib.version.convert"):range("1.0","2.0"))
+        bm:get_adapter(version_tag.." test new")
+    end
+    return bm:get_adapter(version_tag)
+end
+
+local version_module_tag
+---@return version
+function hub:get_version_module()
+    local bm = self:get_basic_module()
+    if not version_module_tag then
+        version_module_tag = "versionModule"
+        bm:set_define(version_module_tag, require("aurcore.define.internal.modules.version.interfaces"))
+        bm:set_adapter(version_module_tag, require("aurcore.core.modules.internal.version.init"))
+    end
+    return bm:get_adapter(version_module_tag)
+end
+
+local unit_test_tag
+---@return unitTest
+function hub:get_unit_test()
+    local bm = self:get_basic_module()
+    if not unit_test_tag then
+        unit_test_tag = "unit_test"
+        bm:set_define(unit_test_tag, require("aurcore.define.unit_test.interfaces"))
+        bm:set_adapter(unit_test_tag, require("aurcore.adapters.unit_test.convert"))
+    end
+    return bm:get_adapter(unit_test_tag)
+end
+
+function hub:get_test()
+    return require("aurcore.test.init")
+end
+
 return hub

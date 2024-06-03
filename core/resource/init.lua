@@ -12,7 +12,7 @@ return {
         for key, module in pairs(dep) do
             if key ~= "framework" then
                 -- 直接注入
-                if key == "logger" then
+                if key == "logger" or key == "version" then
                     -- 日志模块
                     resource = utils:add_to_module_container(resource, key, module)
                 end

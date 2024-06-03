@@ -1,6 +1,6 @@
 local Hub = require("aurcore.hub")
 local i18n = Hub:get_i18n()
-local test = 1
+local test = Hub:get_test()
 -- 用于压缩时提前注册模块名
 -- require("aurcore.define.class")
 -- require("aurcore.define.init")
@@ -45,7 +45,7 @@ end
 local function init(...)
     local frameworkList = { {
         test = function(self)
-            -- return test(self)
+            return test(self)
         end
     }, ... }
     assert(#frameworkList ~= 0, i18n:error("noFrameworks"))
@@ -64,7 +64,8 @@ local function init(...)
     local resource = Hub:init(frameworkContainer)
     -- 注入模块
     return Hub:inject({
-        logger = Hub:get_logger_module(resource, "Aur-Core")
+        logger = Hub:get_logger_module(resource, "Aur-Core"),
+        version = Hub:get_version_module()
     })
 end
 
