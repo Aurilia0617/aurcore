@@ -1,0 +1,1 @@
+lua-distill -i ../from.lua -o ../aurcore.lua -x "math"
