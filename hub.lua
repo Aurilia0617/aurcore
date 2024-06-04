@@ -22,7 +22,7 @@ end
 
 local resource_tag
 function hub:check_resource(resource)
-    local bm = self:get_internal_module()
+    local bm = self:get_basic_module()
     if not resource_tag then
         resource_tag = "resource"
         bm:set_define(resource_tag, require("aurcore.define.internal.resource.interfaces"))
@@ -117,6 +117,20 @@ function hub:get_unit_test()
         bm:set_adapter(unit_test_tag, require("aurcore.adapters.unit_test.convert"))
     end
     return bm:get_adapter(unit_test_tag)
+end
+
+local table_flatten_tag
+---@return flattener
+function hub:get_table_flattener(resource)
+    local bm = self:get_internal_module()
+    if not table_flatten_tag then
+        table_flatten_tag = "table_flatten"
+        bm:set_define(table_flatten_tag, require("aurcore.define.flattener.interfaces"))
+        bm:set_adapter(table_flatten_tag, require("aurcore.utils.table.init").tableFlattener)
+    end
+    return bm:get_adapter(table_flatten_tag):init(function ()
+        return resource:uuid()
+    end)
 end
 
 function hub:get_test()
