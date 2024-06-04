@@ -1,6 +1,6 @@
 local Hub = require("aurcore.hub")
 local i18n = Hub:get_i18n()
-local test = 1
+local test = Hub:get_test()
 -- 用于压缩时提前注册模块名
 -- require("aurcore.define.class")
 -- require("aurcore.define.init")
@@ -45,7 +45,7 @@ end
 local function init(...)
     local frameworkList = { {
         test = function(self)
-            -- return test(self)
+            return test(self)
         end
     }, ... }
     assert(#frameworkList ~= 0, i18n:error("noFrameworks"))
@@ -56,15 +56,18 @@ local function init(...)
 
     local frameworkContainer = createFrameworkContainer(frameworkList)
     -- 确保所有关键方法都存在
-    local requiredMethods = { "print", "log", "now", "uuid", "shared_map", "get_plugin_name", "log_without_print" }
+    local requiredMethods = { "print", "log", "now", "uuid", "shared_map", "get_plugin_name", "log_without_print", "start_new" }
     for _, methodName in ipairs(requiredMethods) do
         validate_method(frameworkContainer[methodName], methodName)
     end
     -- 初始化资源管理器
     local resource = Hub:init(frameworkContainer)
+    local c = Hub:get_collaborator(resource)
     -- 注入模块
     return Hub:inject({
-        logger = Hub:get_logger_module(resource, "Aur-Core")
+        logger = Hub:get_logger_module(resource, "Aur-Core"),
+        version = Hub:get_version_module(),
+        color = Hub:get_color()
     })
 end
 
