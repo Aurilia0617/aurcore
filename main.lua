@@ -56,16 +56,18 @@ local function init(...)
 
     local frameworkContainer = createFrameworkContainer(frameworkList)
     -- 确保所有关键方法都存在
-    local requiredMethods = { "print", "log", "now", "uuid", "shared_map", "get_plugin_name", "log_without_print" }
+    local requiredMethods = { "print", "log", "now", "uuid", "shared_map", "get_plugin_name", "log_without_print", "start_new" }
     for _, methodName in ipairs(requiredMethods) do
         validate_method(frameworkContainer[methodName], methodName)
     end
     -- 初始化资源管理器
     local resource = Hub:init(frameworkContainer)
+    local c = Hub:get_collaborator(resource)
     -- 注入模块
     return Hub:inject({
         logger = Hub:get_logger_module(resource, "Aur-Core"),
-        version = Hub:get_version_module()
+        version = Hub:get_version_module(),
+        color = Hub:get_color()
     })
 end
 

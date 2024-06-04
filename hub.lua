@@ -137,4 +137,16 @@ function hub:get_test()
     return require("aurcore.test.init")
 end
 
+local collaborator_tag
+---@return collaborator
+function hub:get_collaborator(resource)
+    local bm = self:get_basic_module()
+    if not collaborator_tag then
+        collaborator_tag = "collaborator"
+        bm:set_define(collaborator_tag, require("aurcore.define.collaborator.interfaces"))
+        bm:set_adapter(collaborator_tag, require("aurcore.core.collaborator.init"))
+    end
+    return bm:get_adapter(collaborator_tag):new(self:check_resource(resource))
+end
+
 return hub
