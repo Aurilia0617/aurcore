@@ -1,27 +1,9 @@
-local utils = require("aurcore.utils.table.init")
+local resource_m = require("aurcore.core.resource.manager")
 
-return {
-    inject = function (_, dep)
-        local new = require("aurcore.core.resource.new")
-        if dep.framework ~= nil then
-            -- 获得框架，执行初始化流程
-            new.init(dep.framework)
-            return new.resource
-        end
-        local resource = new.resource
-        for key, module in pairs(dep) do
-            if key ~= "framework" then
-                -- 直接注入
-                if key == "xxx" then
-                else
-                    resource = utils:add_to_module_container(resource, key, module)
-                end
-            end
-        end
-        return {
-            new_ac = function ()
-                return new:new_wrapper()
-            end
-        }
-    end
-}
+local function init(container)
+    --- @class resource
+    local resource = {_name_ = "resource"}
+    return resource_m:new(setmetatable(resource, {__index = container}))
+end
+
+return init

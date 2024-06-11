@@ -1,3 +1,0 @@
-原始库：https://github.com/bluebird75/luaunit
-
-为了应对lumega环境下部分参数的缺失做出了一些适配性修改；
