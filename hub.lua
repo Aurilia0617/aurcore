@@ -25,7 +25,7 @@ function Hub:new_class(name, super, config)
 end
 
 --- 获取国际化适配器实例
---- @return table 国际化适配器实例
+--- @return I18n 国际化适配器实例
 function Hub:get_i18n()
     -- 创建并检查i18n类适配器
     adapter_checker:new(
@@ -85,6 +85,55 @@ function Hub:new_resource(container)
     return require("aurcore.core.resource.init")(container)
 end
 
+--- 获取颜色适配器实例
+--- @return Color @返回颜色适配器实例
+function Hub:get_color()
+    return adapter_checker:new(
+        "color_utils",
+        require("aurcore.adapters.color.convert"),
+        require("aurcore.define.lib.color.interfaces")
+    ):get_adapter()
+end
+
+--- 获取日志适配器实例
+--- @param resource table 资源对象
+--- @param name string 日志名称
+--- @return Logger 返回日志适配器实例
+function Hub:get_logger(resource, name)
+    -- 检查并初始化 Logger 类适配器
+    adapter_checker:new(
+        "LoggerClass",
+        require("aurcore.modules.mixin.logger.init"),
+        require("aurcore.define.modules.logger.interfaces").LoggerLibInterface
+    )
+
+    -- 创建并返回指定名称的 Logger 实例适配器
+    return adapter_checker:new(
+        "logger:" .. name,
+        require("aurcore.modules.mixin.logger.init"):new(resource, name),
+        require("aurcore.define.modules.logger.interfaces").LoggerInterface
+    ):get_adapter()
+end
+
+--- 获取版本检查适配器实例
+--- @return versionChecker 返回版本检查适配器实例
+function Hub:get_version_checker()
+    return adapter_checker:new(
+        "VersionChecker",
+        require("aurcore.adapters.version.convert"),
+        require("aurcore.define.lib.version.interfaces")
+    ):get_adapter()
+end
+
+function Hub:get_table_flattener(resource)
+    return adapter_checker:new(
+        "TableFlattener",
+        require("aurcore.utils.table.flatten_table"),
+        require("aurcore.define.utils.flattener.interfaces")
+    ):get_adapter():init(function ()
+        return resource:uuid()
+    end)
+end
 
 --- @class Hub
 local instance =  Hub:new()
