@@ -54,8 +54,8 @@ end
 
 --- 获取测试运行函数
 --- @return function @返回测试运行函数
-function Hub:get_run_test()
-    return require("aurcore.test.init")
+function Hub:get_run_test(o)
+    return require("aurcore.test.init")(o)
 end
 
 --- 获取适配器检查器

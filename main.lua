@@ -6,9 +6,7 @@ local i18n = hub:get_i18n()
 --- @return table
 local function init(...)
     local frameworks = { {
-        test = function(self)
-            return hub:get_run_test()(self)
-        end
+        test = hub.get_run_test
     }, ... }
     assert(#frameworks > 0, i18n:error_msg("framework_not_exist"))
 
