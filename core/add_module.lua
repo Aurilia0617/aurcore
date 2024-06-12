@@ -1,4 +1,4 @@
-local mixin = require("aurcore.core.modules.mixin.mixin")
+local mixin = require("aurcore.modules.mixin.mixin")
 
 return function (resource_m)
     mixin(resource_m.resource)

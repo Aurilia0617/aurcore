@@ -12,7 +12,6 @@ end
 --- @param actual any 实际值
 --- @param expected any 预期值
 --- @vararg any 可选的额外参数，用于提供更详细的错误信息
---- @return boolean 断言是否通过
 function lua_unit:equals(actual, expected, ...)
     return LuaUnit.assertEquals(actual, expected, ...)
 end
@@ -21,7 +20,6 @@ end
 --- @param fun function 需要执行的函数，期待其抛出错误
 --- @param msg string 预期错误信息中应包含的文本
 --- @vararg any 可选的额外参数，用于提供更详细的错误信息
---- @return boolean 断言是否通过
 function lua_unit:error_contains(fun, msg, ...)
     return LuaUnit.assertErrorMsgContains(msg, fun, ...)
 end

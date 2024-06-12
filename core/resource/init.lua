@@ -1,9 +1,8 @@
 local resource_m = require("aurcore.core.resource.manager")
+local new_resource = require("aurcore.core.resource.resource")
 
 local function init(container)
-    --- @class resource
-    local resource = {_name_ = "resource"}
-    return resource_m:new(setmetatable(resource, {__index = container}))
+    return resource_m:new(new_resource:new(container))
 end
 
 return init
