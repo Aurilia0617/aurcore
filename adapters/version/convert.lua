@@ -1,4 +1,7 @@
 local version = require("aurcore.lib.version.main")
+local version_check = require("aurcore.adapters.version.version")
+local hub = require("aurcore.hub")
+local i18n = hub:get_i18n()
 
 local adapter = {}
 
@@ -21,6 +24,10 @@ function adapter:range(v1, v2)
         end
     end
     return new_range
+end
+
+function adapter:check_version(version_str)
+    assert(version_check(self, version_str), i18n:error_msg("incorrect_version", version_str, hub:get_config().version))
 end
 
 return adapter

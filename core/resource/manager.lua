@@ -5,6 +5,7 @@ local wrapper = require("aurcore.core.wrapper.init")
 local resoueceMClass = hub:new_class("resoueceMClass")
 local collaborator = require("aurcore.core.collaborator.init")
 
+--- @return API
 function resoueceMClass:new_ac()
     return wrapper:new(self.resource)
 end

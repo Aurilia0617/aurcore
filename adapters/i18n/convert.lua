@@ -16,6 +16,10 @@ local function new(_, config)
         return i18n:get_error_message(key, ...)
     end
 
+    function adapter:text_msg(key, ...)
+        return i18n:get_text_message(key, ...)
+    end
+
     --- 设置当前语言
     --- @param lang string 语言代码
     function adapter:set_language(lang)

@@ -1,3 +1,5 @@
+local hub = require("aurcore.hub")
+local i18n = hub:get_i18n()
 --- 将传入的对象表包装成一个对象，访问键时优先从在前面的子对象中获取
 --- 使用缓存进行快速访问
 --- @param objects_list table[] 对象表
@@ -34,6 +36,26 @@ local function create_container(objects_list)
                 end
             end
             return api_cache[key]
+        end,
+        __newindex = function(o, key, val)
+            assert(type(val) == "function" or val == nil, i18n:error_msg("incorrect_type_function", key))
+            if val == nil then
+                return
+            elseif type(val) == "function" then
+                local mt = getmetatable(o)
+                local old_index = mt.__index
+                mt.__index = function(t, name)
+                    if name == key then
+                        return val
+                    else
+                        return old_index(t, name)
+                    end
+                end
+                setmetatable(o, mt)
+            else
+                rawset(o, key, val)
+            end
+            o:del_cache(key)
         end
     })
 

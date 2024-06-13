@@ -7,7 +7,7 @@ local ColorAdapter = {_name_ = "ColorAdapter"}
 --- @param char string 字符
 --- @param fg string 前景色
 --- @return string 返回带颜色的字符图表
-function ColorAdapter:get_chart(char, fg)
+function ColorAdapter:get_color_chart(char, fg)
     return ColorLib.chart(char, fg)
 end
 

@@ -24,7 +24,7 @@ function class_interface:get_static_val(key) end
 
 --- 创建实例并调用初始化函数
 --- @param ... any 传递给初始化函数的参数
---- @return Class 实例
+--- @return table 实例
 function class_interface:new(...) return {} end
 
 --- @class ClassLib

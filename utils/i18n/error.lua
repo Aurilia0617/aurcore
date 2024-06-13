@@ -6,6 +6,7 @@ local errorMessages = {
         framework_not_exist = "AurCore: No frameworks provided, use 'coromega' if no custom framework is needed.",
         method_not_exist = "Method not found: %s.",
         key_not_exist = "The key %s does not exist.",
+        lock_key_not_exist = "The lock key %s does not exist.",
         invalid_type_for_framework = "Invalid type for framework at position %d.",
         invalid_type_for_color = "Invalid key type: the color table key should be a string or numeric type.",
         invalid_range = "Number out of range, it should be between %d and %d.",
@@ -14,12 +15,14 @@ local errorMessages = {
         incorrect_type_table = "Invalid key type: %s, a table type is required.",
         incorrect_type_number = "Invalid key type: %s, a numeric type is required.",
         incorrect_type_function = "Invalid key type: %s, a function type is required.",
+        incorrect_version = "Incompatible library version, required version is %s, current version is %s."
     },
     zh = {
         test_msg = "这是一个测试信息：%s。",
         framework_not_exist = "AurCore: 未提供任何框架，若无自定义框架，请使用 'coromega'。",
         method_not_exist = "方法未找到：%s。",
         key_not_exist = "键 %s 不存在。",
+        lock_key_not_exist = "锁键 %s 不存在。",
         invalid_type_for_framework = "第 %d 个框架的类型无效。",
         invalid_type_for_color = "无效的键类型：颜色表键应为字符串或数字类型。",
         invalid_range = "数字超出范围，应在 %d 到 %d 之间。",
@@ -28,6 +31,7 @@ local errorMessages = {
         incorrect_type_table = "无效的键类型：%s，需要的是表类型。",
         incorrect_type_number = "无效的键类型：%s，需要的是数字类型。",
         incorrect_type_function = "无效的键类型：%s，需要的是函数类型。",
+        incorrect_version = "不兼容的库版本, 所需版本为 %s, 当前版本为 %s。"
     }
 }
 

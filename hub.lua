@@ -135,6 +135,26 @@ function Hub:get_table_flattener(resource)
     end)
 end
 
+function Hub:get_container_adapter(container)
+    return adapter_checker:new(
+        "container_adapter",
+        require("aurcore.adapters.container.convert")(container),
+        require("aurcore.define.container.interfaces")
+    ):get_adapter()
+end
+
+function Hub:get_lock_manager(container)
+    return adapter_checker:new(
+        "lock_manager",
+        require("aurcore.core.collaborator.lock"):new(container),
+        require("aurcore.define.lock.interfaces")
+    ):get_adapter()
+end
+
+function Hub:add_instance(container)
+    return self:new_container({container, require("aurcore.modules.instance.instance")(container)})
+end
+
 --- @class Hub
 local instance =  Hub:new()
 return instance

@@ -14,6 +14,8 @@ local i18n_interface = {}
 --- @param ... any 传递给错误信息的参数
 function i18n_interface:error_msg(key, ...) end
 
+function i18n_interface:text_msg(key, ...) end
+
 --- 设置当前语言
 --- @param lang string 语言代码
 function i18n_interface:set_language(lang) end
