@@ -1,152 +1,160 @@
-local hub = {_name_ = "Hub"}
+local adapter_checker = require("aurcore.utils.validators.adapter_checker")
+--- @type ClassLib
+local class_adapter = adapter_checker:new("class", require("aurcore.class.adapter"),
+    require("aurcore.class.interfaces").classLibInterface):get_adapter()
+-- 创建并验证类实例适配器是否满足类接口规范
+adapter_checker:new("class_instance", require("aurcore.class.adapter"):new_class("test"),
+    require("aurcore.class.interfaces").classInterface)
 
-function hub:get_config()
+--- @class Hub:Class
+local Hub = class_adapter:new_class("Hub")
+
+--- 获取配置模块
+--- @return table 返回配置模块
+function Hub:get_config()
     return require("aurcore.config")
 end
 
-function hub:get_basic_module()
-    return require("aurcore.modle.module_basic")
+--- 创建一个新的类
+--- @param name string 新类的名称
+--- @param super table|nil 父类
+--- @param config table|nil 类配置
+--- @return table 新创建的类
+function Hub:new_class(name, super, config)
+    return class_adapter:new_class(name, super, config)
 end
 
-function hub:get_internal_module()
-    return require("aurcore.modle.module_internal")
+--- 获取国际化适配器实例
+--- @return I18n 国际化适配器实例
+function Hub:get_i18n()
+    -- 创建并检查i18n类适配器
+    adapter_checker:new(
+        "i18n",
+        require("aurcore.adapters.i18n.convert"),
+        require("aurcore.define.utils.i18n.interfaces").i18nClassInterface
+    )
+
+    -- 创建并检查i18n实例适配器，并返回适配器
+    return adapter_checker:new(
+        "i18n_instance",
+        require("aurcore.adapters.i18n.convert"):new(self:get_config()),
+        require("aurcore.define.utils.i18n.interfaces").i18nInterface
+    ):get_adapter()
 end
 
---- @return class
---- @param name string
---- @param super class|nil
---- @param ... any
-function hub:new_class(name, super, ...)
-    return require("aurcore.class.init"):new_class(name, super, ...)
+--- 获取单元测试适配器实例
+--- @return table @返回单元测试适配器实例
+function Hub:get_test()
+    return adapter_checker:new(
+        "unit_test",
+        require("aurcore.adapters.test.convert"),
+        require("aurcore.define.lib.test.interfaces")
+    ):get_adapter()
 end
 
-local resource_tag
-function hub:check_resource(resource)
-    local bm = self:get_basic_module()
-    if not resource_tag then
-        resource_tag = "resource"
-        bm:set_define(resource_tag, require("aurcore.define.internal.resource.interfaces"))
-        bm:set_adapter(resource_tag, resource)
-    end
-    bm:replace_adapter(resource_tag, resource)
-    return bm:get_adapter(resource_tag)
+--- 获取测试运行函数
+--- @return function @返回测试运行函数
+function Hub:get_run_test(o)
+    return require("aurcore.test.init")(o)
 end
 
-local color_tag
---- @return Color
-function hub:get_color()
-    local bm = self:get_basic_module()
-    if not color_tag then
-        color_tag = "color"
-        bm:set_define(color_tag, require("aurcore.define.lib.color.interfaces"))
-        bm:set_adapter(color_tag, require("aurcore.adapters.lib.color.convert"))
-    end
-    return bm:get_adapter(color_tag)
+--- 获取适配器检查器
+--- @return table 返回适配器检查器实例
+function Hub:get_adapter_checker()
+    return adapter_checker
 end
 
-local i18n_tag
---- @return I18n
-function hub:get_i18n()
-    local bm = self:get_basic_module()
-    if not i18n_tag then
-        i18n_tag = "i18n"
-        bm:set_define(i18n_tag, require("aurcore.define.lib.i18n.interfaces"))
-        bm:set_adapter(i18n_tag, require("aurcore.adapters.lib.i18n.convert"))
-    end
-    return bm:get_adapter(i18n_tag):new(self:get_config())
+--- 创建新的容器实例
+--- @param objects_list table 包含对象的列表
+--- @return table 返回新的容器实例
+function Hub:new_container(objects_list)
+    return require("aurcore.utils.table.container").new_container(objects_list)
 end
 
-local logger_tag
---- @return Logger
-function hub:get_logger_module(resource, logName)
-    local bm = self:get_internal_module()
-    if not logger_tag then
-        logger_tag = "LoggerModule"
-        bm:set_define(logger_tag, require("aurcore.define.internal.modules.logger.interfaces").LoggerLibInterface)
-        bm:set_adapter(logger_tag, require("aurcore.core.modules.internal.logger.init"))
-        bm:set_define(logger_tag.." test new", require("aurcore.define.internal.modules.logger.interfaces").LoggerInterface)
-        bm:set_adapter(logger_tag.." test new", require("aurcore.core.modules.internal.logger.init"):new(self:check_resource(resource), "Test"))
-        bm:get_adapter(logger_tag.." test new")
-    end
-    return bm:get_adapter(logger_tag):new(self:check_resource(resource), logName)
+--- 添加模块资源
+--- @param resource table 模块资源
+--- @return table 返回添加的模块资源结果
+function Hub:add_modules(resource)
+    return require("aurcore.core.add_module")(resource)
 end
 
--- 先init才能注入模块
-function hub:inject(dep)
-    return require("aurcore.core.resource.init"):inject(dep)
+--- 创建新的资源实例
+--- @param container table 容器实例
+--- @return table 返回新的资源实例
+function Hub:new_resource(container)
+    return require("aurcore.core.resource.init")(container)
 end
 
-function hub:init(framework)
-    return require("aurcore.core.resource.init"):inject({framework = framework})
+--- 获取颜色适配器实例
+--- @return Color @返回颜色适配器实例
+function Hub:get_color()
+    return adapter_checker:new(
+        "color_utils",
+        require("aurcore.adapters.color.convert"),
+        require("aurcore.define.lib.color.interfaces")
+    ):get_adapter()
 end
 
-local version_tag
----@return versionChecker
-function hub:get_version_checker()
-    local bm = self:get_basic_module()
-    if not version_tag then
-        version_tag = "version"
-        bm:set_define(version_tag, require("aurcore.define.lib.version.interfaces").versionCheckerInterface)
-        bm:set_adapter(version_tag, require("aurcore.adapters.lib.version.convert"))
-        bm:set_define(version_tag.." test new", require("aurcore.define.lib.version.interfaces").versionRange)
-        bm:set_adapter(version_tag.." test new", require("aurcore.adapters.lib.version.convert"):range("1.0","2.0"))
-        bm:get_adapter(version_tag.." test new")
-    end
-    return bm:get_adapter(version_tag)
+--- 获取日志适配器实例
+--- @param resource table 资源对象
+--- @param name string 日志名称
+--- @return Logger 返回日志适配器实例
+function Hub:get_logger(resource, name)
+    -- 检查并初始化 Logger 类适配器
+    adapter_checker:new(
+        "LoggerClass",
+        require("aurcore.modules.mixin.logger.init"),
+        require("aurcore.define.modules.logger.interfaces").LoggerLibInterface
+    )
+
+    -- 创建并返回指定名称的 Logger 实例适配器
+    return adapter_checker:new(
+        "logger:" .. name,
+        require("aurcore.modules.mixin.logger.init"):new(resource, name),
+        require("aurcore.define.modules.logger.interfaces").LoggerInterface
+    ):get_adapter()
 end
 
-local version_module_tag
----@return version
-function hub:get_version_module()
-    local bm = self:get_basic_module()
-    if not version_module_tag then
-        version_module_tag = "versionModule"
-        bm:set_define(version_module_tag, require("aurcore.define.internal.modules.version.interfaces"))
-        bm:set_adapter(version_module_tag, require("aurcore.core.modules.internal.version.init"))
-    end
-    return bm:get_adapter(version_module_tag)
+--- 获取版本检查适配器实例
+--- @return versionChecker 返回版本检查适配器实例
+function Hub:get_version_checker()
+    return adapter_checker:new(
+        "VersionChecker",
+        require("aurcore.adapters.version.convert"),
+        require("aurcore.define.lib.version.interfaces")
+    ):get_adapter()
 end
 
-local unit_test_tag
----@return unitTest
-function hub:get_unit_test()
-    local bm = self:get_basic_module()
-    if not unit_test_tag then
-        unit_test_tag = "unit_test"
-        bm:set_define(unit_test_tag, require("aurcore.define.unit_test.interfaces"))
-        bm:set_adapter(unit_test_tag, require("aurcore.adapters.unit_test.convert"))
-    end
-    return bm:get_adapter(unit_test_tag)
-end
-
-local table_flatten_tag
----@return flattener
-function hub:get_table_flattener(resource)
-    local bm = self:get_internal_module()
-    if not table_flatten_tag then
-        table_flatten_tag = "table_flatten"
-        bm:set_define(table_flatten_tag, require("aurcore.define.flattener.interfaces"))
-        bm:set_adapter(table_flatten_tag, require("aurcore.utils.table.init").tableFlattener)
-    end
-    return bm:get_adapter(table_flatten_tag):init(function ()
+function Hub:get_table_flattener(resource)
+    return adapter_checker:new(
+        "TableFlattener",
+        require("aurcore.utils.table.flatten_table"),
+        require("aurcore.define.utils.flattener.interfaces")
+    ):get_adapter():init(function ()
         return resource:uuid()
     end)
 end
 
-function hub:get_test()
-    return require("aurcore.test.init")
+function Hub:get_container_adapter(container)
+    return adapter_checker:new(
+        "container_adapter",
+        require("aurcore.adapters.container.convert")(container),
+        require("aurcore.define.container.interfaces")
+    ):get_adapter()
 end
 
-local collaborator_tag
----@return collaborator
-function hub:get_collaborator(resource)
-    local bm = self:get_basic_module()
-    if not collaborator_tag then
-        collaborator_tag = "collaborator"
-        bm:set_define(collaborator_tag, require("aurcore.define.collaborator.interfaces"))
-        bm:set_adapter(collaborator_tag, require("aurcore.core.collaborator.init"))
-    end
-    return bm:get_adapter(collaborator_tag):new(self:check_resource(resource))
+function Hub:get_lock_manager(container)
+    return adapter_checker:new(
+        "lock_manager",
+        require("aurcore.core.collaborator.lock"):new(container),
+        require("aurcore.define.lock.interfaces")
+    ):get_adapter()
 end
 
-return hub
+function Hub:add_instance(container)
+    return self:new_container({container, require("aurcore.modules.instance.instance")(container)})
+end
+
+--- @class Hub
+local instance =  Hub:new()
+return instance

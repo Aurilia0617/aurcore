@@ -1,5 +1,5 @@
 local hub = require("aurcore.hub")
-local ut = hub:get_unit_test()
+local ut = hub:get_test()
 local testFlattener = { _name_ = "FlattenerTest" }
 
 function testFlattener:setUp()

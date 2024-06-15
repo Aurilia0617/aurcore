@@ -1,6 +1,6 @@
 local parse_version_string = require("aurcore.utils.version.parse")
 local hub = require("aurcore.hub")
-local ut = hub:get_unit_test()
+local ut = hub:get_test()
 
 local test_version_utils = {_name_ = "test_version_utils"}
 

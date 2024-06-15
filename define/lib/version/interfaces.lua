@@ -3,11 +3,13 @@ local versionCheckerInterface = {}
 --- @class versionRange
 local versionRange = {}
 
+local version_module_interface = require("aurcore.define.lib.version.module")
+
 -- 转化为可比较、可tostring打印（版本号|nil, err）的对象
 function versionCheckerInterface:convert2version(versionStr) end
 
 -- 同上，但是要求versionStr必须符合x.x.x的格式
-function versionCheckerInterface:strictCheckversion(versionStr) end
+function versionCheckerInterface:strict_check_version(versionStr) end
 
 -- 获得一个范围对象
 --- @return versionRange
@@ -23,5 +25,6 @@ function versionRange:matches(...) end
 
 return {
     versionCheckerInterface = versionCheckerInterface,
-    versionRange = versionRange
+    versionRange = versionRange,
+    versionModule = version_module_interface
 }

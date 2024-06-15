@@ -1,13 +1,11 @@
 local hub = require("aurcore.hub")
---- @class acWrapper:class
-local acWrapperClass = hub:new_class("acWrapper")
--- acWrapperClass:include(require("aurcore.core.wrapper.mixin.color"), require("aurcore.core.wrapper.mixin.logger"))
+--- @class wrapper:Class
+local WarpperClass = hub:new_class("WarpperClass")
 
-acWrapperClass:init(function (resource)
-    hub:check_resource(resource)
-    function acWrapperClass:_get_resource()
-        return resource
-    end
+WarpperClass:init(function (instance,resource)
+    instance.class:include({
+        __index = resource  -- 每次获得实例将覆盖一次类，不会获得上一个实例的resource
+    })
 end)
 
-return acWrapperClass
+return WarpperClass
