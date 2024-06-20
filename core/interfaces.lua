@@ -48,7 +48,7 @@ function t:get_logger_adapter(resource, name)
     local logger_manager = adapter_checker:new("logger_manager", require("aurcore.core.adapters.logger.init"),
         require("aurcore.define.core.logger").logger_manager_interface):get_adapter()
     return adapter_checker:new("logger", logger_manager:new(resource, name),
-        require("aurcore.define.core.logger").logger_interface):get_adapter()
+        require("aurcore.define.core.logger").logger_interface, false, true):get_adapter()
 end
 
 return t
