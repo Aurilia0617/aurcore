@@ -3,6 +3,7 @@ local i18n = hub:get_i18n()
 local interfaces = require("aurcore.core.interfaces")
 --- @class ResourcesClass:Class,ResourcesUtils
 local resources_class = hub:new_class("resources_class")
+local add_modules = require("aurcore.core.reources.get_modules")
 
 resources_class:mixin(
     require("aurcore.core.reources.utils")
@@ -15,6 +16,11 @@ resources_class:on_init(function(instance, framework)
     instance.class:include({
         __index = framework
     })
+    local raw_logger = instance:get_logger("Aur-Core")
+    function instance:get_raw_logger()
+        return raw_logger
+    end
+    add_modules(instance)
 end)
 
 function resources_class:get_framework()

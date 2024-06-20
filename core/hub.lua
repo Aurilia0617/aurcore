@@ -46,6 +46,10 @@ function Hub:get_color()
     return interfaces:get_color_adapter()
 end
 
+function Hub:get_adapter_checker()
+    return adapter_checker
+end
+
 --- @type Hub
 local hub = adapter_checker:new("hub", Hub:new(), require("aurcore.define.core.hub.interfaces")):get_adapter()
 return hub

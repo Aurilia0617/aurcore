@@ -8,7 +8,10 @@ wrapper_class:on_init(function (instance, resources)
         return resources
     end
     instance.class:include({
-        __index = resources
+        __index = hub:new_container({
+            resources,
+            resources:get_raw_logger()
+        })
     })
 end)
 

@@ -1,7 +1,8 @@
 local sub_interfaces = {
-    require("aurcore.define.core.reources.other")
+    require("aurcore.define.core.reources.other"),
+    require("aurcore.define.modules.version.interfaces").version_checker_interface
 }
----@class Resources:ResourcesOther
+---@class Resources:ResourcesOther,versionChecker
 local t = {}
 
 for _, value in pairs(sub_interfaces) do

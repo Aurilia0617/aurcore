@@ -1,7 +1,9 @@
 local sub_interfaces = {
-    require("aurcore.define.core.wrapper.other")
+    require("aurcore.define.core.wrapper.other"),
+    require("aurcore.define.core.logger").logger_interface,
+    require("aurcore.define.modules.version.module")
 }
----@class Wrapper:WrapperOther
+---@class Wrapper:WrapperOther,Logger,VersionUtils
 local t = {}
 
 for _, value in pairs(sub_interfaces) do

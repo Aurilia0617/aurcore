@@ -24,4 +24,8 @@ function t:get_color()
     return {}
 end
 
+function t:get_adapter_checker()
+    return {}
+end
+
 return t

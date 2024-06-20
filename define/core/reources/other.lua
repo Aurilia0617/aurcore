@@ -14,6 +14,11 @@ function t:get_logger(name)
     return {}
 end
 
+---@return Logger
+function t:get_raw_logger()
+    return {}
+end
+
 ---@return Resources
 function t:get_framework()
     return {}

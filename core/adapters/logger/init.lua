@@ -88,7 +88,6 @@ loggerModule:on_init(function (instance, resource, name)
             )
         )
     end
-
     return instance
 end)
 

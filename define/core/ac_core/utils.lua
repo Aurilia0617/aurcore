@@ -15,4 +15,14 @@ function t:new_resources(...)
     return {}
 end
 
+---@return Config
+function t:get_config()
+    return {}
+end
+
+--- @return AdapterManager
+function t:get_adapter_checker()
+    return {}
+end
+
 return t
