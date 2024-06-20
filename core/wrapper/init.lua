@@ -1,11 +1,19 @@
-local hub = require("aurcore.hub")
---- @class wrapper:Class
-local WarpperClass = hub:new_class("WarpperClass")
+local hub = require("aurcore.core.hub")
+local i18n = hub:get_i18n()
+--- @class WrapperClass:Class
+local wrapper_class = hub:new_class("wrapper_class")
 
-WarpperClass:init(function (instance,resource)
+wrapper_class:on_init(function (instance, resources)
+    function instance:get_resources()
+        return resources
+    end
     instance.class:include({
-        __index = resource  -- 每次获得实例将覆盖一次类，不会获得上一个实例的resource
+        __index = resources
     })
 end)
 
-return WarpperClass
+function wrapper_class:get_resources()
+    error(i18n.error_msg.not_initialized("resources"))
+end
+
+return wrapper_class
