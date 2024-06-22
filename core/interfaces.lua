@@ -1,54 +1,131 @@
-local adapter_checker = require("aurcore.core.utils.adapter_checker")
+local adapter_manager = require("aurcore.core.utils.adapter.manager")
+local do_once = require("aurcore.core.utils.do_once")
+--- @class Interfaces
 local t = {}
-
-function t:get_class_adapter()
-    local class_manager = adapter_checker:new("class_manager", require("aurcore.core.class.adapter"),
-        require("aurcore.define.core.class").class_manager_interface):get_adapter()
-    local class_instance = adapter_checker:new("class_instance", class_manager:new_class("test"),
-        require("aurcore.define.core.class").class_interface):get_adapter()
-    adapter_checker:new("class_instance_instance", class_instance:new(),
-        require("aurcore.define.core.class").class_instance_interface):get_adapter()
-    return class_manager
+-- 键名为要返回的适配器tag
+local do_once_list = {
+    class_manager = function ()
+        adapter_manager:add({
+            tag = "class_manager",
+            object = require("aurcore.core.adapters.class.adapter"),
+            interface = require("aurcore.define.core.class").class_manager_interface,
+            regenerate = false,
+            sub_adapter = {
+                tag = "class",
+                fun = "new_class",
+                args = {"test"},
+                interface = require("aurcore.define.core.class").class_interface,
+                regenerate = false,
+                sub_adapter = {
+                    tag = "class_instance",
+                    fun = "new",
+                    interface = require("aurcore.define.core.class").class_instance_interface,
+                    regenerate = false,
+                }
+            }
+        })
+    end,
+    hub = function (object)
+        adapter_manager:add({
+            tag = "hub",
+            object = object,
+            interface = require("aurcore.define.core.hub.interfaces"),
+            regenerate = false,
+        })
+    end,
+    i18n = function (object)
+        adapter_manager:add({
+            tag = "i18n_class",
+            object = require("aurcore.core.adapters.i18n"),
+            interface = require("aurcore.define.core.i18n").i18n_class_interface,
+            regenerate = false,
+            sub_adapter = {
+                tag = "i18n",
+                fun = "new",
+                args = {object},
+                interface = require("aurcore.define.core.i18n").i18n_interface,
+                regenerate = true
+            }
+        })
+    end,
+    ac_core = function ()
+        adapter_manager:add({
+            tag = "ac_core",
+            object = require("aurcore.core.adapters.ac_core.init"),
+            interface = require("aurcore.define.core.ac_core"),
+            regenerate = false
+        })
+    end,
+    hub_c = function (object)
+        adapter_manager:add({
+            tag = "hub_c",
+            object = object,
+            interface = require("aurcore.define.core.hub.expose_c"),
+            regenerate = false,
+        })
+    end,
+    hub_r = function (object)
+        adapter_manager:add({
+            tag = "hub_r",
+            object = object,
+            interface = require("aurcore.define.core.hub.expose_r"),
+            regenerate = false,
+        })
+    end,
+    hub_w = function (object)
+        adapter_manager:add({
+            tag = "hub_w",
+            object = object,
+            interface = require("aurcore.define.core.hub.expose_w"),
+            regenerate = false,
+        })
+    end,
+    resources = function (object)
+        adapter_manager:add({
+            tag = "resources_class",
+            object = require("aurcore.core.adapters.resources.init"),
+            interface = require("aurcore.define.core.class").class_interface,
+            regenerate = false,
+            sub_adapter = {
+                tag = "resources",
+                fun = "new",
+                args = {object},
+                interface = require("aurcore.define.core.resources.interfaces"),
+                regenerate = true
+            }
+        })
+    end,
+    frameworks = function (object)
+        adapter_manager:add({
+            tag = "frameworks",
+            object = object,
+            interface = require("aurcore.define.frameworks"),
+            regenerate = true,
+        })
+    end,
+    wrapper = function (object)
+        adapter_manager:add({
+            tag = "wrapper_class",
+            object = require("aurcore.core.adapters.wrapper.init"),
+            interface = require("aurcore.define.core.class").class_interface,
+            regenerate = false,
+            sub_adapter = {
+                tag = "wrapper",
+                fun = "new",
+                args = {object},
+                interface = require("aurcore.define.core.wrapper.interfaces"),
+                regenerate = true
+            }
+        })
+    end
+}
+for key, value in pairs(do_once_list) do
+    do_once_list[key] = do_once(value)
 end
 
-function t:get_i18n_adapter(config)
-    local class = adapter_checker:new("i18n_class", require("aurcore.core.adapters.i18n"),
-        require("aurcore.define.core.i18n").i18n_class_interface):get_adapter()
-    return adapter_checker:new("i18n", class:new(config),
-        require("aurcore.define.core.i18n").i18n_interface, true, true):get_adapter()
-end
-
-function t:get_ac_core_adapter()
-    return adapter_checker:new("ac_core",
-        require("aurcore.core.utils.container").new_container({ require("aurcore.core.adapters.ac_core.init"), require(
-        "aurcore.core.hub") }), require("aurcore.define.core.ac_core.interfaces")):get_adapter()
-end
-
-function t:get_test_adapter()
-    return adapter_checker:new("unit_test", require("aurcore.core.adapters.test"),
-        require("aurcore.define.core.test")):get_adapter()
-end
-
-function t:get_color_adapter()
-    return adapter_checker:new("color", require("aurcore.core.adapters.color"),
-        require("aurcore.define.core.color")):get_adapter()
-end
-
-function t:get_wrapper_adapter(resource)
-    return adapter_checker:new("wrapper", require("aurcore.core.wrapper.init"):new(resource),
-        require("aurcore.define.core.wrapper.interfaces")):get_adapter()
-end
-
-function t:get_resources_adapter(adapter)
-    return adapter_checker:new("resources",adapter,
-        require("aurcore.define.core.reources.interfaces")):get_adapter()
-end
-
-function t:get_logger_adapter(resource, name)
-    local logger_manager = adapter_checker:new("logger_manager", require("aurcore.core.adapters.logger.init"),
-        require("aurcore.define.core.logger").logger_manager_interface):get_adapter()
-    return adapter_checker:new("logger", logger_manager:new(resource, name),
-        require("aurcore.define.core.logger").logger_interface, false, true):get_adapter()
+function t:get_adapter(tag, ...)
+    do_once_list[tag](...)
+    return adapter_manager:get_adapter(tag)
 end
 
 return t

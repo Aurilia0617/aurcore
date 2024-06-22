@@ -1,13 +1,8 @@
-local sub_interfaces = {
-    require("aurcore.define.core.hub.expose_w"),
-}
----@class Wrapper
+--- @class HubExposeW
 local t = {}
 
----@return Resources
-function t:get_resources()
-    return {}
-end
+local sub_interfaces = {
+}
 
 for _, value in pairs(sub_interfaces) do
     for name, i in pairs(value) do

@@ -1,0 +1,1 @@
+该工具在`aurcore/core/interfaces.lua`以及`aurcore/modules/interfaces.lua`中使用

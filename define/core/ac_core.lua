@@ -1,11 +1,11 @@
 local sub_interfaces = {
-    require("aurcore.define.core.hub.expose_w"),
+    require("aurcore.define.core.hub.expose_c")
 }
----@class Wrapper
+---@class ACCore:HubExposeC
 local t = {}
 
----@return Resources
-function t:get_resources()
+--- @return Resources
+function t:new_resources(framework_list)
     return {}
 end
 

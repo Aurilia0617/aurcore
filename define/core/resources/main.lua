@@ -1,11 +1,21 @@
 local sub_interfaces = {
-    require("aurcore.define.core.hub.main"),
-    require("aurcore.define.core.hub.expose_c"),
     require("aurcore.define.core.hub.expose_r"),
-    require("aurcore.define.core.hub.expose_w"),
 }
----@class Hub:HubMain, HubExposeC, HubExposeR, HubExposeW
+---@class ResourceMain
 local t = {}
+
+--- @return Wrapper
+function t:new_ac()
+    return {}
+end
+
+--- @class Framework:Frameworks,HubExposeR
+local t2 = {}
+
+---@return Framework
+function t:get_framework()
+    return {}
+end
 
 for _, value in pairs(sub_interfaces) do
     for name, i in pairs(value) do

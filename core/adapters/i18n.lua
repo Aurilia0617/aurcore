@@ -1,7 +1,7 @@
 local hub = require("aurcore.core.hub")
 local get_error_message_table = require("aurcore.lib.i18n.error_msg")
 local LanguageManager = require("aurcore.lib.i18n.language")
----@class i18nAdapter:Class
+---@class NI_I18n:Class
 local i18n = hub:new_class("i18n")
 local language_init
 i18n:on_init(function (instance, config)

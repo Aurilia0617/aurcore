@@ -1,11 +1,11 @@
-local sub_interfaces = {
-    require("aurcore.define.core.hub.expose_w"),
-}
----@class Wrapper
+--- @class HubExposeC
 local t = {}
 
----@return Resources
-function t:get_resources()
+local sub_interfaces = {
+}
+
+--- @return I18n
+function t:get_i18n()
     return {}
 end
 

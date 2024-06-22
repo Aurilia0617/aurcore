@@ -1,3 +1,3 @@
---- @class Core
-local core = require("aurcore.core.hub"):get_core()
-return core
+---@type ACCore
+local t = require("aurcore.core.hub"):get_adapter("ac_core")
+return t

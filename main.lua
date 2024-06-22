@@ -11,7 +11,7 @@ local function init(...)
     for i, framework in ipairs(frameworks) do
         assert(type(framework) == "table", i18n.error_msg.invalid_type_for_framework(i))
     end
-    --- @type Resources
+
     local resource = core:new_resources(frameworks)
 
     return resource
