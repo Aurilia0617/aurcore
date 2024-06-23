@@ -1,7 +1,8 @@
 local sub_interfaces = {
     require("aurcore.define.core.hub.expose_r"),
+    require("aurcore.define.core.version").version_checker_interface
 }
----@class ResourceMain:HubExposeR
+---@class ResourceMain:HubExposeR, VersionChecker
 local t = {}
 
 --- @return API

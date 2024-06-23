@@ -149,6 +149,21 @@ local do_once_list = {
             }
         })
     end,
+    version = function ()
+        adapter_manager:add({
+            tag = "version",
+            object = require("aurcore.core.adapters.version"),
+            interface = require("aurcore.define.core.version").version_checker_interface,
+            regenerate = false,
+            sub_adapter = {
+                tag = "version_range",
+                fun = "range",
+                args = {"v0.1.0", "v0.2.0"},
+                interface = require("aurcore.define.core.version").version_range_interface,
+                regenerate = false
+            }
+        })
+    end,
 }
 for key, value in pairs(do_once_list) do
     do_once_list[key] = do_once(value)
