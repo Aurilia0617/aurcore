@@ -18,7 +18,9 @@ function adapter_manager:_validateAdapter(config, get_super_fun, is_replace)
     end
     if get_super_fun then
         config.object = get_super_fun()
-        config.get_super_fun = get_super_fun
+        if not is_replace then
+            config.get_super_fun = get_super_fun
+        end
     end
     assert(is_replace or self._adapters[config.tag] == nil, ("Adapter %s already exists"):format(config.tag))
     for k, v in pairs(config.interface) do
@@ -76,6 +78,7 @@ function adapter_manager:get_adapter(tag)
     return self._adapters[tag]
 end
 
+-- 如果设置重新生成，该函数将不会生效
 function adapter_manager:replace_adapter(tag, object)
     local instance = self._adapters[tag]
     assert(instance ~= nil, "The adapter " .. tag .. " does not exist.")

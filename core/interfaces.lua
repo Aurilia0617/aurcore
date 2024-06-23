@@ -117,6 +117,14 @@ local do_once_list = {
                 regenerate = true
             }
         })
+    end,
+    test = function ()
+        adapter_manager:add({
+            tag = "test",
+            object = require("aurcore.core.adapters.test"),
+            interface = require("aurcore.define.core.test"),
+            regenerate = false
+        })
     end
 }
 for key, value in pairs(do_once_list) do
