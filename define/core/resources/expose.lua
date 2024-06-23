@@ -1,10 +1,18 @@
---- @class ResourceExpose
+--- @class ResourceExpose:Frameworks
 local t = {}
 
 local sub_interfaces = {
+    require("aurcore.define.frameworks")
 }
 
+-- TODO 这里直接暴露到API，如果要Wrapper专属请更改结构
+
 function t:test() end
+
+--- @return Logger
+function t:new_logger(...)
+    return {}
+end
 
 for _, value in pairs(sub_interfaces) do
     for name, i in pairs(value) do

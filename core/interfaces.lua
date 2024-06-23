@@ -125,7 +125,30 @@ local do_once_list = {
             interface = require("aurcore.define.core.test"),
             regenerate = false
         })
-    end
+    end,
+    color = function ()
+        adapter_manager:add({
+            tag = "color",
+            object = require("aurcore.core.adapters.color"),
+            interface = require("aurcore.define.core.color.interfaces"),
+            regenerate = false
+        })
+    end,
+    logger = function (object)
+        adapter_manager:add({
+            tag = "logger",
+            object = require("aurcore.core.adapters.logger.init"),
+            interface = require("aurcore.define.core.logger.main").logger_manager_interface,
+            regenerate = false,
+            sub_adapter = {
+                tag = "logger_ac",
+                fun = "new",
+                args = {object, "Aur-Core"},
+                interface = require("aurcore.define.core.logger.main").logger_interface,
+                regenerate = false
+            }
+        })
+    end,
 }
 for key, value in pairs(do_once_list) do
     do_once_list[key] = do_once(value)
@@ -134,6 +157,11 @@ end
 function t:get_adapter(tag, ...)
     do_once_list[tag](...)
     return adapter_manager:get_adapter(tag)
+end
+
+function t:_get_adapter(tag, tag2, ...)
+    do_once_list[tag](...)
+    return adapter_manager:get_adapter(tag2)
 end
 
 return t

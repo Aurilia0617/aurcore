@@ -1,8 +1,7 @@
 local sub_interfaces = {
-    require("aurcore.define.core.hub.expose_w"),
-    require("aurcore.define.core.resources.expose")
+    require("aurcore.define.core.wrapper.api")
 }
----@class Wrapper
+---@class Wrapper:API
 local t = {}
 
 ---@return Resources

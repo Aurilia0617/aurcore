@@ -52,6 +52,10 @@ function t:get_adapter(tag, ...)
     return interfaces:get_adapter(tag, ...)
 end
 
+function t:_get_adapter(tag, tag2, ...)
+    return interfaces:_get_adapter(tag, tag2, ...)
+end
+
 --- @class Hub
 local hub = t:get_adapter("hub", t)
 return hub

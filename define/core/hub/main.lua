@@ -51,4 +51,8 @@ function t:get_adapter(tag, ...)
     return {}
 end
 
+function t:_get_adapter(tag, tag2, ...)
+    return {}
+end
+
 return t

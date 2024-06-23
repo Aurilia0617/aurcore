@@ -39,7 +39,8 @@ function adapter_manager:_validateAdapter(config, get_super_fun, is_replace)
             return
         else
             self:_validateAdapter(config.sub_adapter, function()
-                return config.object[config.sub_adapter.fun](config.object, unpack(config.sub_adapter.args or {}))
+                local result = config.object[config.sub_adapter.fun](config.object, unpack(config.sub_adapter.args or {}))
+                return result
             end)
         end
     end

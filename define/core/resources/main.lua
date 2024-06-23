@@ -1,10 +1,10 @@
 local sub_interfaces = {
     require("aurcore.define.core.hub.expose_r"),
 }
----@class ResourceMain
+---@class ResourceMain:HubExposeR
 local t = {}
 
---- @return Wrapper
+--- @return API
 function t:new_ac()
     return {}
 end
