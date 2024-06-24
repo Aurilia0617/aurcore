@@ -33,8 +33,14 @@ local function _createIndexWrapper(aClass, f)
     if f == nil then
         return aClass.__instanceDict
     elseif type(f) == "function" then
+        local old_index = aClass.__instanceDict.__index
         return function(self, name)
-            local value = aClass.__instanceDict[name]
+            local value
+            if type(old_index) == "function" then
+                value = old_index(self, name)
+            else
+                value = aClass.__instanceDict[name]
+            end
 
             if value ~= nil then
                 return value
@@ -43,8 +49,14 @@ local function _createIndexWrapper(aClass, f)
             end
         end
     else -- if  type(f) == "table" then
+        local old_index = aClass.__instanceDict.__index
         return function(self, name)
-            local value = aClass.__instanceDict[name]
+            local value
+            if type(old_index) == "function" then
+                value = old_index(self, name)
+            else
+                value = aClass.__instanceDict[name]
+            end
 
             if value ~= nil then
                 return value

@@ -31,12 +31,6 @@ function t:is_unix()
     return true
 end
 
---- @param o table[]
---- @return Container
-function t:new_container(o)
-    return {}
-end
-
 --- @return Config
 function t:get_config()
     return {}

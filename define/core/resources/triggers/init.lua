@@ -1,19 +1,8 @@
---- @class HubExposeC
-local t = {}
-
 local sub_interfaces = {
+    require("aurcore.define.core.resources.triggers.player_status")
 }
-
---- @return I18n
-function t:get_i18n()
-    return {}
-end
-
---- @param o table[]
---- @return Container
-function t:new_container(o)
-    return {}
-end
+---@class Triggers:PlayerStatus
+local t = {}
 
 for _, value in pairs(sub_interfaces) do
     for name, i in pairs(value) do

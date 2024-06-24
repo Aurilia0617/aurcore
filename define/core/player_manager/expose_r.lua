@@ -1,17 +1,12 @@
---- @class HubExposeC
+--- @class PlayerManagerExposeR
 local t = {}
 
 local sub_interfaces = {
 }
 
---- @return I18n
-function t:get_i18n()
-    return {}
-end
-
---- @param o table[]
---- @return Container
-function t:new_container(o)
+---@param player string|table
+--- @return Player
+function t:get_player(player)
     return {}
 end
 

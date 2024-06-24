@@ -80,7 +80,7 @@ local do_once_list = {
             regenerate = false,
         })
     end,
-    resources = function (object)
+    resources = function (...)
         adapter_manager:add({
             tag = "resources_class",
             object = require("aurcore.core.adapters.resources.init"),
@@ -89,7 +89,7 @@ local do_once_list = {
             sub_adapter = {
                 tag = "resources",
                 fun = "new",
-                args = {object},
+                args = {...},
                 interface = require("aurcore.define.core.resources.interfaces"),
                 regenerate = true
             }
@@ -160,6 +160,21 @@ local do_once_list = {
                 fun = "range",
                 args = {"v0.1.0", "v0.2.0"},
                 interface = require("aurcore.define.core.version").version_range_interface,
+                regenerate = false
+            }
+        })
+    end,
+    player_manager = function (object)
+        adapter_manager:add({
+            tag = "player_manager",
+            object = require("aurcore.core.adapters.player_manager.init"):new(object),
+            interface = require("aurcore.define.core.player_manager.interfaces").player_manager_interface,
+            regenerate = false,
+            sub_adapter = {
+                tag = "player",
+                fun = "get_player",
+                args = {object:bot_name()},
+                interface = require("aurcore.define.core.player_manager.interfaces").player_interface,
                 regenerate = false
             }
         })

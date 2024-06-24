@@ -12,7 +12,12 @@ local function init(...)
         assert(type(framework) == "table", i18n.error_msg.invalid_type_for_framework(i))
     end
 
-    local resource = core:new_resources(frameworks)
+    local framework = core:new_container(frameworks)
+    local resource = core:new_resources({{  -- 添加框架要覆盖的方法
+        get_neomega_player = function (_, ...)
+            return framework:get_player(...)    -- 之后get_player可以被覆盖了
+        end
+    },framework})
 
     return resource
 end

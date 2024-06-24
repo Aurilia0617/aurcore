@@ -16,8 +16,8 @@ function t:is_subclass_of(class)
     return self:isSubclassOf(class)
 end
 
-function t:mixin(list)
-    self:include(list)
+function t:mixin(...)
+    self:include(...)
     self._name_ = nil
     return self
 end

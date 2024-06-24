@@ -1,8 +1,11 @@
---- @class ResourceExpose:Frameworks
+--- @class ResourceExpose:Frameworks, Triggers
 local t = {}
 
+-- 给resource时同时直接暴露给wrapper
 local sub_interfaces = {
-    require("aurcore.define.frameworks")
+    require("aurcore.define.frameworks"),
+    require("aurcore.define.core.resources.triggers.init"),
+    require("aurcore.define.core.player_manager.expose_r")
 }
 
 -- TODO 这里直接暴露到API，如果要Wrapper专属请更改结构
